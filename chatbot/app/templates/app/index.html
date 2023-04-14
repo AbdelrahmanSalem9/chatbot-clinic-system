@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chat Bot Demo</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			background-image: url('https://c4.wallpaperflare.com/wallpaper/542/50/545/simple-background-blue-simple-minimalism-wallpaper-preview.jpg');
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-attachment: fixed;
+			animation: bg-animation 20s linear infinite;
+		}
+
+		@keyframes bg-animation {
+			0% {background-position: 0 0;}
+			100% {background-position: 100% 100%;}
+		}
+
+		h1 {
+			font-size: 60px;
+			font-weight: bold;
+			text-align: center;
+			color: white;
+			margin-bottom: 20px;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		}
+
+		p {
+			font-size: 24px;
+			text-align: center;
+			color: white;
+			margin-bottom: 40px;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		}
+
+		button {
+			padding: 15px 25px;
+			font-size: 24px;
+			font-weight: bold;
+			border: none;
+			border-radius: 30px;
+			background-color: #f9a826;
+			color: white;
+			cursor: pointer;
+			box-shadow: 0 10px 20px rgba(249, 168, 38, 0.3);
+			transition: transform 0.3s ease-in-out;
+		}
+
+		button:hover {
+			background-color: #ffba43;
+			transform: scale(1.1);
+		}
+	</style>
+</head>
+<body>
+	<h1>Welcome to the Chat Bot Demo</h1>
+	<p>This is a simple chat bot demo. Click the button below to start chatting!</p>
+    <a href="/chatbot">
+        <button>Start Chatting</button>
+    </a>
+    
+</body>
+</html>
