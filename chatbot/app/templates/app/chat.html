@@ -1,0 +1,110 @@
+<!-- TODO: seperate the html and js code in different files -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat Page</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            text-align: center;
+        }
+
+        #chat-log {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        #chat-log p {
+            margin-bottom: 0;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        #chat-log .user {
+            background-color: #fff;
+            text-align: right;
+        }
+
+        .message{
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 0px
+        }
+
+        #chat-log .bot {
+            background-color: #e0e0e0;
+            text-align: left;
+        }
+
+        #chat-form {
+            display: flex;
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to the Chat Page!</h1>
+        <div id="chat-log"></div>
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Enter a message...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize the chat log with a welcome message
+            $('#chat-log').append('<div><p class="bot">Hello! How can I help you?</p></div>');
+
+            // Listen for form submission
+            $('#chat-form').submit(function (event) {
+                event.preventDefault();
+
+                // Get the user's input
+                var userInput = $('#chat-input').val();
+
+                // Add the user's message to the chat log
+                $('#chat-log').append('<div class= "message" ><p class="user">' + userInput + '</p></div>');
+                $.ajax({
+                    url: '/chatbot/',
+                    type: 'POST',
+                    data: {
+                        'user_input': userInput,
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        // Add the bot's response to the chat log
+                        $('#chat-log').append('<div><p class="bot">' + response.bot_response + '</p></div>');
+                        // Clear the input field
+                        $('#chat-input').val('');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
