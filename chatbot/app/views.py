@@ -3,6 +3,10 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from .bot import Bot
+
+bot = Bot()
+
 # Create your views here.
 def IndexView(request):
     return render(request,template_name='app/index.html')
@@ -18,7 +22,7 @@ def chatbot(request):
     # TODO: Implement a more advanced chatbot here
 
     # Create a bot response
-    bot_response = 'I got your message: ' + user_input
+    bot_response = bot.get_response(user_input)
 
     # Send the bot response back to the JavaScript file
     return JsonResponse({'bot_response': bot_response})
