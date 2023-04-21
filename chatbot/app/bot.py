@@ -1,35 +1,31 @@
-from .models import Doctor
-import re
+from .query_handler import QueryHandler
+from nltk.chat.util import Chat, reflections 
+# import re
 
 
 class Bot:
     def __init__(self):
-        # self.syns = {'hello': {'hello', 'hullo', 'hi', 'howdy', 'how do you do'}, 'doctor': {'Doctor', 'doc', 'doctor up', 'mend', 'sophisticate',
-        #  'MD', 'medico', 'touch on', 'bushel', 'restore', 'physician', 'Dr.', 'Doctor of the Church', 'doctor', 'fix', 'repair', 'furbish up'}}
-        self.keywords_dict = {
-            'greet': re.compile('.*\\bhello\\b.*|.*\\bhullo\\b.*|.*\\bhi\\b.*|.*\\bhowdy\\b.*|.*\\bhow do you do\\b.*'),
-            'doctor': re.compile('.*\\bDoctor\\b.*|.*\\bdoc\\b.*|.*\\bdoctor up\\b.*')
-        }
-        self.responses = {
-            'greet': self.greeting_query,
-            'doctor': self.doctor_query,
-            'fallback': self.fallback_query,
-        }
+        self.handler = QueryHandler()
+        self.rules = [
+            (r'hi|hello|hey', ['Hello!', 'Hi there!', 'Hey!']),
+            (r'what is your name?', ['My name is ChatBot.', 'I am ChatBot.']),
+            (r'how are you?', ['I am doing well, thank you!', 'I am fine, thank you!']),
+            (r'bye|goodbye|see you', ['Goodbye!', 'See you later.']),
+            (r'(.*)', ['I am sorry, I did not understand.']),
+        ]
+        self.chat = Chat(self.rules, reflections)
 
-    def doctor_query(self, doctor_id=1):
-        doctor = Doctor.objects.get(pk=doctor_id)
-        return f"Doctor {doctor.name} is a {doctor.specialty} and is available {doctor.availability}"
-
-    def greeting_query(self):
-        return "Hello! How can I help you?"
-
-    def fallback_query(self):
-        return "I dont quite understand. Could you repeat that?"
+        # TODO: change to dynamic definition
+        self.appointment_keywords = {'engagement', 'appointment', 'naming', 'date', 'assignment', 'designation', 'appointee', 'fitting'}      
+        self.doctor_keywords = {'doctor', 'doc', 'physician','Dr.','ph'}
+        self.working_hours_keywords = {'working', 'hours','avaliable.', 'open'}
 
     def get_response(self, user_input):
-        matched_intent = 'fallback'
-        for intent, pattern in self.keywords_dict.items():
-            if re.search(pattern, user_input):
-                matched_intent = intent
-                print(intent)
-        return self.responses[matched_intent]()
+        if any(s in user_input for s in self.doctor_keywords):
+            return self.handler.doctor_query()
+        elif any(s in user_input for s in self.appointment_keywords):
+            return self.handler.appointment_query()
+        elif any(s in user_input for s in self.working_hours_keywords):
+            return self.handler.working_hours_query()
+        else:
+            return self.chat.respond(user_input)
