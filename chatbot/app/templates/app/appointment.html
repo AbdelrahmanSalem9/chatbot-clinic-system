@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Appointment Form</title>
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f7f7f7;
+    }
+
+    form {
+        max-width: 600px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    form h1 {
+        margin-top: 0;
+        font-size: 36px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    form label {
+        display: inline-block;
+        margin-bottom: 5px;
+        font-size: 18px;
+        font-weight: 500;
+        color: #333333;
+        text-align: left;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="tel"],
+    form select,
+    form textarea {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 30px;
+        border: 2px solid #cccccc;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #333333;
+        transition: border-color 0.3s ease;
+    }
+
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form input[type="tel"]:focus,
+    form select:focus,
+    form textarea:focus {
+        border-color: #555555;
+        outline: none;
+    }
+
+    form button[type="submit"] {
+        display: inline-block;
+        padding: 12px 20px;
+        margin-top: 20px;
+        background-color: #555555;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    form button[type="submit"]:hover {
+        background-color: #333333;
+    }
+</style>
+
+<body>
+    <!-- <h1>Appointment Form</h1> -->
+    <form method="POST" action="#">
+        {% csrf_token %}
+        <label for="full-name">Full Name:</label>
+        <input type="text" id="full-name" name="full_name" required>
+        <br>
+        <label for="email">E-mail:</label>
+        <input type="text" id="email" name="email" required>
+        <br>
+        <label for="date-of-birth">Date of Birth:</label>
+        <input type="date" id="date-of-birth" name="date_of_birth" required>
+        <br>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="">--Please select--</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        <br>
+        <label for="marital-status">Marital Status:</label>
+        <select id="marital-status" name="marital_status" required>
+            <option value="">--Please select--</option>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="divorced">Divorced</option>
+            <option value="widowed">Widowed</option>
+        </select>
+        <br>
+        <label for="height">Height (in cm):</label>
+        <input type="number" id="height" name="height" required>
+        <br>
+        <label for="weight">Weight (in kg):</label>
+        <input type="number" id="weight" name="weight" required>
+        <br>
+        <label for="contact-number">Contact Number:</label>
+        <input type="tel" id="contact-number" name="contact_number" required>
+        <br>
+        <label for="allergies">Do you have any allergies?</label>
+        <br>
+        <input type="checkbox" id="allergies-yes" name="allergies" value="yes">
+        <label for="allergies-yes">Yes</label>
+        <input type="checkbox" id="allergies-no" name="allergies" value="no">
+        <label for="allergies-no">No</label>
+        <br>
+        <label for="medications">Are you currently taking any medications?</label>
+        <br>
+        <input type="checkbox" id="medications-yes" name="medications" value="yes">
+        <label for="medications-yes">Yes</label>
+        <input type="checkbox" id="medications-no" name="medications" value="no">
+        <label for="medications-no">No</label>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

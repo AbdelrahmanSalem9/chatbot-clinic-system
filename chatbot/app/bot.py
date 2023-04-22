@@ -10,13 +10,14 @@ class Bot:
             (r'hi|hello|hey', ['Hello!', 'Hi there!', 'Hey!']),
             (r'what is your name?', ['My name is ChatBot.', 'I am ChatBot.']),
             (r'how are you?', ['I am doing well, thank you!', 'I am fine, thank you!']),
+            (r'appointment|appointee|fitting|scheduling|schedule', ['Sure, I can help you with that, please provide your full name']),
             (r'bye|goodbye|see you', ['Goodbye!', 'See you later.']),
             (r'(.*)', ['I am sorry, I did not understand.']),
         ]
         self.chat = Chat(self.rules, reflections)
 
         # TODO: change to dynamic definition
-        self.appointment_keywords = {'engagement', 'appointment', 'naming', 'date', 'assignment', 'designation', 'appointee', 'fitting'}      
+        self.appointment_keywords = {'appointment', 'designation', 'appointee', 'fitting', 'scheduling','schedule'}      
         self.doctor_keywords = {'doctor', 'doc', 'physician','Dr.','ph'}
         self.working_hours_keywords = {'working', 'hours','avaliable.', 'open'}
 

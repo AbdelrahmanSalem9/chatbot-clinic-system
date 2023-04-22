@@ -14,4 +14,4 @@ class QueryHandler:
         return f"{doctor.availability.capitalize()} from 2:00pm to 7:00pm"
 
     def appointment_query(self):
-        return 
+        return f"You can make an appointment from","/appointment"

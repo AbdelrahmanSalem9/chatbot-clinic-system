@@ -8,6 +8,7 @@
         body {
             background-color: #f2f2f2;
         }
+
         .container {
             max-width: 800px;
             margin: 50px auto;
@@ -51,7 +52,7 @@
             text-align: left;
         }
 
-        .message{
+        .message {
             display: flex;
             justify-content: flex-end;
             margin-bottom: 0px;
@@ -132,7 +133,14 @@
                     dataType: 'json',
                     success: function (response) {
                         // Add the bot's response to the chat log
-                        $('#chat-log').append('<div><p class="bot">' + response.bot_response + '</p></div>');
+                        if (response.link) {
+                            // If the response includes a link, create an anchor tag with the link
+                            botResponse = '<p class="bot">' + response.bot_response + '<a class="bot" href="' + response.link + '"> here </a>' + '</p></div>';
+                        }
+                        else {
+                            botResponse = '<p class="bot">' + response.bot_response + '</p></div>';
+                        }
+                        $('#chat-log').append(botResponse);
                         // Clear the input field
                         $('#chat-input').val('');
                     }
