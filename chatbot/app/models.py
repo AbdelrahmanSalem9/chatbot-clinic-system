@@ -3,13 +3,34 @@ from django.db import models
 # Create your models here.
 
 
+# class Doctor(models.Model):
+#     name = models.CharField(max_length=255)
+#     specialty = models.CharField(max_length=100)
+#     working_hours_start = models.TimeField(null=True,blank=True)
+#     working_hours_end = models.TimeField(null=True,blank=True)
+#     working_days = models.CharField(max_length=255,null=True)
+#     about = models.TextField(blank=True)
+
 class Doctor(models.Model):
     name = models.CharField(max_length=255)
     specialty = models.CharField(max_length=100)
-    working_hours_start = models.TimeField(null=True,blank=True)
-    working_hours_end = models.TimeField(null=True,blank=True)
-    working_days = models.CharField(max_length=255,null=True)
     about = models.TextField(blank=True)
+
+
+class WorkingDay(models.Model):
+    WEEKDAY_CHOICES = [
+        (0, 'Monday'),
+        (1, 'Tuesday'),
+        (2, 'Wednesday'),
+        (3, 'Thursday'),
+        (4, 'Friday'),
+        (5, 'Saturday'),
+        (6, 'Sunday'),
+    ]
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='working_days')
+    weekday = models.IntegerField(choices=WEEKDAY_CHOICES)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
 
 
 class Patient(models.Model):
