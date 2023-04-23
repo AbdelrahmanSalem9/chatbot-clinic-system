@@ -135,7 +135,7 @@
                         // Add the bot's response to the chat log
                         if (response.link) {
                             // If the response includes a link, create an anchor tag with the link
-                            botResponse = '<p class="bot">' + response.bot_response + '<a class="bot" href="' + response.link + '"> here </a>' + '</p></div>';
+                            botResponse = '<p class="bot">' + response.bot_response + '<a style="text-decoration: none; color: blue" class="bot" href="' + response.link + '"> here </a>' + '</p></div>';
                         }
                         else {
                             botResponse = '<p class="bot">' + response.bot_response + '</p></div>';
