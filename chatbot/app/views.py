@@ -24,18 +24,16 @@ def ChatView(request):
 def chatbot(request):
     # Get the user's input from the AJAX request
     user_input = request.POST.get('user_input', '')
-
     # TODO: Implement a more advanced chatbot here
 
     # Create a bot response
-    try:
-        bot_response, link = bot.get_response(user_input)
-    except:
-        link = None
-        bot_response = bot.get_response(user_input)
+    bot_response = bot.get_response(user_input)
+
+    if isinstance(bot_response, tuple):
+        return JsonResponse({'bot_response': bot_response[0], 'link': bot_response[1]})
 
     # Send the bot response back to the JavaScript file
-    return JsonResponse({'bot_response': bot_response, 'link': link})
+    return JsonResponse({'bot_response': bot_response, 'link': None})
 
 
 def appointment(request):

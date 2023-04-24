@@ -10,7 +10,6 @@ class Bot:
             (r'hi|hello|hey', ['Hello!', 'Hi there!', 'Hey!']),
             (r'what is your name?', ['My name is ChatBot.', 'I am ChatBot.']),
             (r'how are you?', ['I am doing well, thank you!', 'I am fine, thank you!']),
-            (r'appointment|appointee|fitting|scheduling|schedule', ['Sure, I can help you with that, please provide your full name']),
             (r'bye|goodbye|see you', ['Goodbye!', 'See you later.']),
             (r'(.*)', ['I am sorry, I did not understand.']),
         ]
@@ -23,7 +22,7 @@ class Bot:
 
     def get_response(self, user_input):
         if any(s in user_input for s in self.doctor_keywords):
-            return self.handler.doctor_query()
+            return self.handler.doctor_query(user_input)
         elif any(s in user_input for s in self.appointment_keywords):
             return self.handler.appointment_query()
         elif any(s in user_input for s in self.working_hours_keywords):
