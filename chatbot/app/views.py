@@ -41,20 +41,26 @@ def appointment(request):
     if request.method == 'POST':
         post_data = request.POST
         email = post_data.get('email')
-        if not Patient.objects.filter(pk=email).exists():
-            patient = Patient(
-                full_name=post_data.get('full_name'),
-                email=email,
-                phone=post_data.get('contact_number'),
-                birth_date=post_data.get('date_of_birth'),
-                gender=post_data.get('gender'),
-                marital_status=post_data.get('marital_status'),
-                height=post_data.get('height'),
-                weight=post_data.get('weight'),
-                medications=post_data.get('medications') == 'yes',
-                allergies=post_data.get('allergies') == 'yes',
-            )
-            patient.save()
+        patient_data = {
+            'full_name': post_data.get('full_name'),
+            'phone': post_data.get('contact_number'),
+            'birth_date': post_data.get('date_of_birth'),
+            'gender': post_data.get('gender'),
+            'marital_status': post_data.get('marital_status'),
+            'height': post_data.get('height'),
+            'weight': post_data.get('weight'),
+            'medications': post_data.get('medications') == 'yes',
+            'allergies': post_data.get('allergies') == 'yes',
+        }
+
+        patient, created = Patient.objects.get_or_create(
+            email=email, defaults=patient_data)
+        if not created:
+            # Update only the fields that have changed
+            fields_to_update = {
+                k: v for k, v in patient_data.items() if v != getattr(patient, k)}
+            if fields_to_update:
+                Patient.objects.filter(pk=email).update(**fields_to_update)
 
         return redirect(f'/book_appointment/?email={email}')
 
