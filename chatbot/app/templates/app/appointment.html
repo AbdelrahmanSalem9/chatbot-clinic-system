@@ -2,8 +2,9 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment Form</title>
-</head>
+  </head>
 <style>
     html,
     body {
@@ -131,16 +132,16 @@
         <br>
         <label for="allergies">Do you have any allergies?</label>
         <br>
-        <input type="checkbox" id="allergies-yes" name="allergies" value="yes">
+        <input type="radio" id="allergies-yes" name="allergies" value="yes">
         <label for="allergies-yes">Yes</label>
-        <input type="checkbox" id="allergies-no" name="allergies" value="no">
+        <input type="radio" id="allergies-no" name="allergies" value="no">
         <label for="allergies-no">No</label>
         <br>
         <label for="medications">Are you currently taking any medications?</label>
         <br>
-        <input type="checkbox" id="medications-yes" name="medications" value="yes">
+        <input type="radio" id="medications-yes" name="medications" value="yes">
         <label for="medications-yes">Yes</label>
-        <input type="checkbox" id="medications-no" name="medications" value="no">
+        <input type="radio" id="medications-no" name="medications" value="no">
         <label for="medications-no">No</label>
         <br>
         <button type="submit">Submit</button>
