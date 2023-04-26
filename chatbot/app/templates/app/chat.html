@@ -3,100 +3,9 @@
 <html>
 
 <head>
+    {% load static %}
     <title>Chat Page</title>
-    <style>
-        body {
-            background-color: #f2f2f2;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 36px;
-            text-align: center;
-            margin-top: 0;
-        }
-
-        #chat-log {
-            height: 400px;
-            overflow-y: scroll;
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #f2f2f2;
-        }
-
-        #chat-log p {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            display: inline-block;
-            font-size: 16px;
-        }
-
-        #chat-log .user {
-            background-color: #a5d2e5;
-            text-align: right;
-        }
-
-        #chat-log .bot {
-            background-color: #e0e0e0;
-            text-align: left;
-        }
-
-        .message {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 0px;
-        }
-
-        #chat-form {
-            display: flex;
-            margin-top: 20px;
-        }
-
-        #chat-input {
-            flex-grow: 1;
-            margin-right: 10px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: border-color 0.2s ease-in-out;
-        }
-
-        #chat-input:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        #send-button {
-            padding: 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
-            transition: background-color 0.2s ease-in-out;
-            cursor: pointer;
-        }
-
-        #send-button:hover {
-            background-color: #0056b3;
-        }
-
-        #send-button:active {
-            background-color: #004999;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 </head>
 
 <body>
@@ -109,48 +18,7 @@
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Initialize the chat log with a welcome message
-            $('#chat-log').append('<div><p class="bot">Hello! How can I assist you today?</p></div>');
-
-            // Listen for form submission
-            $('#chat-form').submit(function (event) {
-                event.preventDefault();
-
-                // Get the user's input
-                var userInput = $('#chat-input').val();
-
-                // Add the user's message to the chat log
-                $('#chat-log').append('<div class= "message" ><p class="user">' + userInput + '</p></div>');
-                $.ajax({
-                    url: '/chatbot/',
-                    type: 'POST',
-                    data: {
-                        'user_input': userInput,
-                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                    },
-                    dataType: 'json',
-                    success: function (response) {
-                        // Add the bot's response to the chat log
-                        if (response.link) {
-                            // If the response includes a link, redirect to the link automatically
-                            botResponse = '<p class="bot">' + response.bot_response + '</p></div>';
-                            setTimeout(function () {
-                                window.location.href = response.link;
-                            }, 2000);
-                        } else {
-                            // Otherwise, display the bot response as usual
-                            botResponse = '<p class="bot">' + response.bot_response + '</p></div>';
-                        }
-                        $('#chat-log').append(botResponse);
-                        // Clear the input field
-                        $('#chat-input').val('');
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="{% static 'js/chat.js' %}"></script>
 </body>
 
 </html>
