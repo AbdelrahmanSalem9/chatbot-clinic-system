@@ -134,10 +134,13 @@
                     success: function (response) {
                         // Add the bot's response to the chat log
                         if (response.link) {
-                            // If the response includes a link, create an anchor tag with the link
-                            botResponse = '<p class="bot">' + response.bot_response + '<a style="text-decoration: none; color: blue" class="bot" href="' + response.link + '"> here </a>' + '</p></div>';
-                        }
-                        else {
+                            // If the response includes a link, redirect to the link automatically
+                            botResponse = '<p class="bot">' + response.bot_response + '</p></div>';
+                            setTimeout(function () {
+                                window.location.href = response.link;
+                            }, 2000);
+                        } else {
+                            // Otherwise, display the bot response as usual
                             botResponse = '<p class="bot">' + response.bot_response + '</p></div>';
                         }
                         $('#chat-log').append(botResponse);
