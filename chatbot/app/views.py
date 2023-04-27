@@ -21,6 +21,8 @@ def ChatView(request):
 
 # TODO: handle this csrf_exempt
 
+# TODO: remove the link things
+
 
 @csrf_exempt
 def chatbot(request):
@@ -86,17 +88,18 @@ def get_doctors(request):
     return JsonResponse({'error': 'Invalid request'})
 
 
+# TODO: handle this csrf_exempt
+# TODO: handle the difference between server local time and the user's local time
+# TODO: redirect to error page
 @csrf_exempt
 def book_appointment(request):
     if request.method == 'POST':
-        # print(request.POST.get('patient_email'))
         data = json.loads(request.body)
         doctor_id = data['doctor_id']
         selected_date = data['date']
         time_slot = datetime.strptime(
             data['time_slot'], '%Y-%m-%dT%H:%M:%S.%fZ')
         doctor = Doctor.objects.get(pk=doctor_id)
-        # print(f"{type(time_slot)} and {time_slot}")
         appointment = Appointment(
             doctor=doctor,
             patient=Patient.objects.get(pk=data['patient_email']),
@@ -104,7 +107,7 @@ def book_appointment(request):
             end_time=time_slot + timedelta(minutes=150),
         )
         appointment.save()
-        return JsonResponse({'message': 'Appointment booked successfully'})
+        return JsonResponse({'message': 'Appointment booked successfully', 'appointment_id': appointment.pk})
     # return JsonResponse({'error': 'Invalid request method'})
     else:
         # Display the form to book an appointment
@@ -115,6 +118,8 @@ def book_appointment(request):
         }
         return render(request, 'app/book_appointment.html', context)
     return render(request, template_name='app/book_appointment.html')
+
+# TODO: put on separate file
 
 
 def get_available_slots(doctor, selected_date):
