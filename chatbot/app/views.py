@@ -107,7 +107,7 @@ def book_appointment(request):
             end_time=time_slot + timedelta(minutes=150),
         )
         appointment.save()
-        return JsonResponse({'message': 'Appointment booked successfully', 'appointment_id': appointment.pk})
+        return JsonResponse({'message': 'Appointment booked successfully'})
     # return JsonResponse({'error': 'Invalid request method'})
     else:
         # Display the form to book an appointment

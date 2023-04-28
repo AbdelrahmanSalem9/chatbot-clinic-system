@@ -31,7 +31,8 @@
         {% endif %}
     </div>
     <div style="display:none;" class="confirm-box" id="confirmation-message">
-        <p>Are you sure you want to proceed?</p>
+        <p>Confirm you appointment ?</p>
+        <div id="confirmation-data"></div>
         <button id="confirm-button">Confirm</button>
         <button id="cancel-button">Cancel</button>
     </div>
@@ -77,6 +78,7 @@
                                 const cancelButton = document.getElementById("cancel-button");
                                 confirmationMessage.style.display = "block";
                                 confirmButton.addEventListener("click", function () {
+                                    confirmButton.disabled = true;
                                     // Perform the action
                                     confirmationMessage.style.display = "none";
                                     // get the selected doctor ID and email
@@ -93,7 +95,7 @@
                                         if (xhr.status === 200) {
                                             var response = JSON.parse(xhr.responseText);
                                             alert(response.message); // show the confirmation message
-                                            window.location.href = "/chat?appointment_id=" + response.appointment_id;
+                                            window.location.href = "/chat";
                                         }
                                     };
                                     var data = {
@@ -109,6 +111,8 @@
                                     // Perform the action
                                     confirmationMessage.style.display = "none";
                                 });
+                                confirmationData = document.getElementById("confirmation-data");
+                                confirmationData.innerHTML = "Patient: {{ patient_email }}<br>Doctor: " + document.getElementById("doctor").options[document.getElementById("doctor").selectedIndex].text + "<br>Date: " + selectedDate + "<br>Time: " + slotButton.innerText;
                             });
                             // add the button to the container
                             slotContainer.appendChild(slotButton);
