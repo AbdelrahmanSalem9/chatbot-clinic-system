@@ -19,3 +19,6 @@ class QueryHandler:
 
     def appointment_query(self):
         return f"Sure, I will take you to the appointment page now...", "/appointment"
+
+    def delete_query(self, user_input):
+        return f"Sure, I will help you to cancel an appointment now...", "/delete"

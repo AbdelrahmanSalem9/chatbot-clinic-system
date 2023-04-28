@@ -119,6 +119,27 @@ def book_appointment(request):
         return render(request, 'app/book_appointment.html', context)
     return render(request, template_name='app/book_appointment.html')
 
+
+def delete(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            appointment = Appointment.objects.select_related('doctor', 'patient').get(
+                pk=data['appointment_id'],
+                doctor__pk=data['doctor_id'],
+                patient__email=data['patient_email']
+            )
+            appointment.delete()
+            return JsonResponse({'message': 'Appointment deleted successfully', 'deleted': 'True'})
+        except Appointment.DoesNotExist:
+            pass
+        return JsonResponse({'message': 'Appointment not found'})
+
+    doctors = Doctor.objects.all()
+    context = {'doctors': doctors}
+    return render(request, template_name='app/delete.html', context=context)
+
+
 # TODO: put on separate file
 
 

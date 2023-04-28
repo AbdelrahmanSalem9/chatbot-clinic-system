@@ -18,6 +18,7 @@ class Bot:
         # TODO: change to dynamic definition
         self.appointment_keywords = {'appointment', 'designation', 'appointee', 'fitting', 'scheduling','schedule'}      
         self.doctor_keywords = {'doctor', 'doc', 'physician','Dr.','ph'}
+        self.delete_keywords = {'delete', 'remove', 'cancel'}
         self.working_hours_keywords = {'working', 'hours','avaliable.', 'open'}
 
     def get_response(self, user_input):
@@ -27,5 +28,7 @@ class Bot:
             return self.handler.appointment_query()
         elif any(s in user_input for s in self.working_hours_keywords):
             return self.handler.working_hours_query()
+        elif any(s in user_input for s in self.delete_keywords):
+            return self.handler.delete_query(user_input)
         else:
             return self.chat.respond(user_input)
