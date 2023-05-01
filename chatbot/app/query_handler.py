@@ -1,4 +1,4 @@
-from .models import Doctor, WorkingDay
+from .models import Doctor, WorkingDay, Appointment
 
 
 class QueryHandler:
@@ -6,19 +6,24 @@ class QueryHandler:
         doctors = Doctor.objects.all()
         for doctor in doctors:
             if doctor.name.lower() in user_input.lower():
-                return f"Name: {doctor.name} Specialty: {doctor.specialty} Working Days: {self._get_working_days(doctor)} About: {doctor.about}"
+                return f"{doctor.get_info()} Working days: {self._get_working_days(doctor)}"
 
     def _get_working_days(self, doctor):
-        working_days = [WorkingDay.WEEKDAY_CHOICES[day.weekday][1]
-                        for day in WorkingDay.objects.filter(doctor=doctor)]
-        return " ".join(working_days)
+        return " and ".join([str(working_day.get_info()) for working_day in WorkingDay.objects.filter(doctor=doctor)])
 
     def working_hours_query(self, doctor_id=1):
-        doctor = Doctor.objects.get(pk=doctor_id)
-        return f"{doctor.availability.capitalize()} from 2:00pm to 7:00pm"
+        pass
 
-    def appointment_query(self):
+    def modify_appointment_query(self, user_input):
+        id = user_input[1:]
+        try:
+            appointment = Appointment.objects.get(pk=id)
+            return f"I will help you modfiy you appointment now...", f"/modify/?id={id}"
+        except:
+            return f"Sorry, I could not find the appointment with id {user_input}. Please try again."
+
+    def new_appointment_query(self):
         return f"Sure, I will take you to the appointment page now...", "/appointment"
 
-    def delete_query(self, user_input):
+    def delete_appointment_query(self, user_input):
         return f"Sure, I will help you to cancel an appointment now...", "/delete"

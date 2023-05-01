@@ -89,21 +89,9 @@ def get_doctors(request):
 # TODO: redirect to error page
 def book_appointment(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        doctor_id = data['doctor_id']
-        selected_date = data['date']
-        time_slot = datetime.strptime(
-            data['time_slot'], '%Y-%m-%dT%H:%M:%S.%fZ')
-        doctor = Doctor.objects.get(pk=doctor_id)
-        appointment = Appointment(
-            doctor=doctor,
-            patient=Patient.objects.get(pk=data['patient_email']),
-            start_time=time_slot + timedelta(minutes=120),
-            end_time=time_slot + timedelta(minutes=150),
-        )
-        appointment.save()
-        return JsonResponse({'message': 'Appointment booked successfully'})
-    # return JsonResponse({'error': 'Invalid request method'})
+        if new_appointment(request.body):
+            return JsonResponse({'message': 'Appointment booked successfully'})
+        return JsonResponse({'error': 'Appointment NOT booked'})
     else:
         # Display the form to book an appointment
         doctors = Doctor.objects.all()
@@ -135,7 +123,50 @@ def delete(request):
     return render(request, template_name='app/delete.html', context=context)
 
 
-# TODO: put on separate file
+def new_appointment(data):
+    try:
+        data = json.loads(data)
+        doctor_id = data['doctor_id']
+        selected_date = data['date']
+        time_slot = datetime.strptime(
+            data['time_slot'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        doctor = Doctor.objects.get(pk=doctor_id)
+        appointment = Appointment(
+            doctor=doctor,
+            patient=Patient.objects.get(pk=data['patient_email']),
+            start_time=time_slot + timedelta(minutes=120),
+            end_time=time_slot + timedelta(minutes=150),
+        )
+        appointment.save()
+        return True
+    except Exception as e:
+        print("ERROR is happened when saving new appointment")
+        print(e)
+        return False
+
+
+def modify_appointment(request):
+    id = request.GET.get('id')
+    if request.method == 'POST':
+        try:
+            appointment = Appointment.objects.get(pk=id)
+            data = json.loads(request.body)
+            appointment.selected_date = data['date']
+            appointment.time_slot = datetime.strptime(
+                data['time_slot'], '%Y-%m-%dT%H:%M:%S.%fZ')
+            appointment.save()
+            return JsonResponse({'message': 'Appointment modified successfully'})
+        except Appointment.DoesNotExist:
+            return JsonResponse({'message': 'Appointment does not exist'}, status=404)
+        except:
+            return JsonResponse({'message': 'Failed to modify appointment'}, status=500)
+    else:
+        appointment = Appointment.objects.get(pk=id)
+        context = {
+            'doctors': [appointment.doctor],
+            'patient_email': appointment.patient.email,
+        }
+        return render(request, template_name='app/book_appointment.html', context=context)
 
 
 def get_available_slots(doctor, selected_date):

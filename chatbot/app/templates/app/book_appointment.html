@@ -42,12 +42,12 @@
             dateInput.addEventListener('change', function () {
                 var selectedDate = dateInput.value;
                 var doctorId = document.getElementById('doctor').value;
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/check_availability/?doctor=' + doctorId + '&date=' + selectedDate);
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
+                var xhr1 = new XMLHttpRequest();
+                xhr1.open('GET', '/check_availability/?doctor=' + doctorId + '&date=' + selectedDate);
+                xhr1.onload = function () {
+                    if (xhr1.status === 200) {
                         // Update the page with the available time slots
-                        var response = JSON.parse(xhr.responseText);
+                        var response = JSON.parse(xhr1.responseText);
                         var availableTimeSlots = response.available_time_slots;
                         var timeSlotsList = document.getElementById('available-time-slots');
                         timeSlotsList.innerHTML = '';
@@ -77,13 +77,13 @@
                                     var selectedSlot = slotButton.innerText;
                                     var selectedDateTime = new Date(selectedDate + ' ' + selectedSlot);
                                     // send a POST request to book the appointment
-                                    var xhr = new XMLHttpRequest();
-                                    xhr.open("POST", "/book_appointment/");
-                                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                                    xhr.setRequestHeader("X-CSRFToken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-                                    xhr.onload = function () {
-                                        if (xhr.status === 200) {
-                                            var response = JSON.parse(xhr.responseText);
+                                    var xhr2 = new XMLHttpRequest();
+                                    xhr2.open("POST", window.location.href);
+                                    xhr2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                    xhr2.setRequestHeader("X-CSRFToken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+                                    xhr2.onload = function () {
+                                        if (xhr2.status === 200) {
+                                            var response = JSON.parse(xhr2.responseText);
                                             alert(response.message); // show the confirmation message
                                             window.location.href = "/chat";
                                         }
@@ -94,7 +94,7 @@
                                         "time_slot": selectedDateTime.toISOString(),
                                         "patient_email": "{{ patient_email }}",
                                     };
-                                    xhr.send(JSON.stringify(data));
+                                    xhr2.send(JSON.stringify(data));
                                     slotButton.style.visibility = "hidden";
                                 });
                                 cancelButton.addEventListener("click", function () {
@@ -102,16 +102,17 @@
                                     confirmationMessage.style.display = "none";
                                 });
                                 confirmationData = document.getElementById("confirmation-data");
+                                // TODO: Always get the value of the button as the last slot 
                                 confirmationData.innerHTML = "Patient: {{ patient_email }}<br>Doctor: " + document.getElementById("doctor").options[document.getElementById("doctor").selectedIndex].text + "<br>Date: " + selectedDate + "<br>Time: " + slotButton.innerText;
                             });
                             // add the button to the container
                             slotContainer.appendChild(slotButton);
                         }
                     } else {
-                        console.log('Request failed.  Returned status of ' + xhr.status);
+                        console.log('Request failed.  Returned status of ' + xhr1.status);
                     }
                 };
-                xhr.send(); // Suspicisions
+                xhr1.send(); // Suspicisions
             });
         });
     </script>
