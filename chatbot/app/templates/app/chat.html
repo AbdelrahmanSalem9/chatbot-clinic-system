@@ -13,6 +13,7 @@
         <h1>Welcome to the Chat Page!</h1>
         <div id="chat-log"></div>
         <form id="chat-form">
+            {% csrf_token %}
             <input type="text" id="chat-input" placeholder="Enter a message...">
             <button type="submit" id="send-button">Send</button>
         </form>

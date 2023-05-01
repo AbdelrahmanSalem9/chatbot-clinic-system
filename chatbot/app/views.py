@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from .models import Patient, Doctor, Appointment
 from django.utils import timezone
 from datetime import timedelta, datetime
@@ -19,12 +18,10 @@ def IndexView(request):
 def ChatView(request):
     return render(request, template_name='app/chat.html')
 
-# TODO: handle this csrf_exempt
 
 # TODO: remove the link things
 
 
-@csrf_exempt
 def chatbot(request):
     # Get the user's input from the AJAX request
     user_input = request.POST.get('user_input', '')
@@ -88,10 +85,8 @@ def get_doctors(request):
     return JsonResponse({'error': 'Invalid request'})
 
 
-# TODO: handle this csrf_exempt
 # TODO: handle the difference between server local time and the user's local time
 # TODO: redirect to error page
-@csrf_exempt
 def book_appointment(request):
     if request.method == 'POST':
         data = json.loads(request.body)
