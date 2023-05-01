@@ -20,6 +20,7 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
+                response.bot_response = response.bot_response.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 // Add the bot's response to the chat log
                 if (response.link) {
                     // If the response includes a link, redirect to the link automatically
