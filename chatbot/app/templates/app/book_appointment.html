@@ -6,6 +6,7 @@
     <title>Book Appointment</title>
 </head>
 <link rel="stylesheet" href="{% static 'css/book_appointment.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>
     <h1>Book Appointment</h1>
@@ -31,23 +32,27 @@
         {% endif %}
     </div>
     <div style="display:none;" class="confirm-box" id="confirmation-message">
-        <p>Confirm you appointment ?</p>
+        <p>Thank You!</p>
         <div id="confirmation-data"></div>
         <button id="confirm-button">Confirm</button>
-        <button id="cancel-button">Cancel</button>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var dateInput = document.getElementById('date');
-            dateInput.addEventListener('change', function () {
+            var doctorSelect = document.getElementById('doctor');
+            var confirmButton = document.getElementById('confirm-button');
+            var cancelButton = document.getElementById('cancel-button');
+
+            // Add event listener for date input change
+            $('#doctor, #date').change(function () {
                 var selectedDate = dateInput.value;
-                var doctorId = document.getElementById('doctor').value;
-                var xhr1 = new XMLHttpRequest();
-                xhr1.open('GET', '/check_availability/?doctor=' + doctorId + '&date=' + selectedDate);
-                xhr1.onload = function () {
-                    if (xhr1.status === 200) {
+                var doctorId = doctorSelect.value;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/check_availability/?doctor=' + doctorId + '&date=' + selectedDate);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
                         // Update the page with the available time slots
-                        var response = JSON.parse(xhr1.responseText);
+                        var response = JSON.parse(xhr.responseText);
                         var availableTimeSlots = response.available_time_slots;
                         var timeSlotsList = document.getElementById('available-time-slots');
                         timeSlotsList.innerHTML = '';
@@ -57,64 +62,56 @@
                             // create the button element
                             var slotButton = document.createElement("button");
                             slotButton.classList.add("time-slot");
-                            slotButton.innerText = new Date(availableTimeSlots[i]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            slotButton.innerText = "Book " + new Date(availableTimeSlots[i]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-                            // add a click event listener to the button
                             slotButton.addEventListener("click", function () {
-
+                                // slotButton.disabled = true;
                                 const confirmationMessage = document.getElementById("confirmation-message");
-                                const confirmButton = document.getElementById("confirm-button");
-                                const cancelButton = document.getElementById("cancel-button");
-                                confirmationMessage.style.display = "block";
-                                confirmButton.addEventListener("click", function () {
-                                    confirmButton.disabled = true;
-                                    // Perform the action
-                                    confirmationMessage.style.display = "none";
-                                    // get the selected doctor ID and email
-                                    var doctorId = document.getElementById("doctor").value;
+                                // confirmationMessage.style.display = "block";
 
-                                    // get the selected time slot
-                                    var selectedSlot = slotButton.innerText;
-                                    var selectedDateTime = new Date(selectedDate + ' ' + selectedSlot);
-                                    // send a POST request to book the appointment
-                                    var xhr2 = new XMLHttpRequest();
-                                    xhr2.open("POST", window.location.href);
-                                    xhr2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                                    xhr2.setRequestHeader("X-CSRFToken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-                                    xhr2.onload = function () {
-                                        if (xhr2.status === 200) {
-                                            var response = JSON.parse(xhr2.responseText);
-                                            alert(response.message); // show the confirmation message
-                                            window.location.href = "/chat";
-                                        }
-                                    };
-                                    var data = {
-                                        "doctor_id": doctorId,
-                                        "date": selectedDate,
-                                        "time_slot": selectedDateTime.toISOString(),
-                                        "patient_email": "{{ patient_email }}",
-                                    };
-                                    xhr2.send(JSON.stringify(data));
-                                    slotButton.style.visibility = "hidden";
-                                });
-                                cancelButton.addEventListener("click", function () {
-                                    // Perform the action
-                                    confirmationMessage.style.display = "none";
-                                });
-                                confirmationData = document.getElementById("confirmation-data");
-                                // TODO: Always get the value of the button as the last slot 
-                                confirmationData.innerHTML = "Patient: {{ patient_email }}<br>Doctor: " + document.getElementById("doctor").options[document.getElementById("doctor").selectedIndex].text + "<br>Date: " + selectedDate + "<br>Time: " + slotButton.innerText;
+                                var doctorName = doctorSelect.options[doctorSelect.selectedIndex].text;
+                                var selectedTime = this.innerText;
+                                var confirmationData = document.getElementById("confirmation-data");
+                                confirmationData.innerHTML = "Patient: {{ patient_email }}<br>Doctor: " + doctorName + "<br>Date: " + selectedDate + "<br>Time: " + selectedTime.substr(5);
+                                submitAppointment(doctorId, doctorName, selectedDate, selectedTime, confirmationData, confirmButton);
+                                this.style.visibility = "hidden";
                             });
-                            // add the button to the container
                             slotContainer.appendChild(slotButton);
                         }
-                    } else {
-                        console.log('Request failed.  Returned status of ' + xhr1.status);
                     }
                 };
-                xhr1.send(); // Suspicisions
+                xhr.send();
             });
         });
+        function submitAppointment(doctorId, doctorName, selectedDate, selectedTime, confirmationData, confirmButton) {
+            const selectedDateTime = new Date(`${selectedDate} ${selectedTime.substr(5)}`);
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', window.location.href);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.setRequestHeader('X-CSRFToken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (!response.error) {
+                        document.getElementById('confirmation-message').style.display = 'block';
+                        confirmationData.innerHTML = `<h2>Appointment ID #${response.appointment_id}</h2>${confirmationData.innerHTML}`;
+                        confirmButton.addEventListener('click', function () {
+                            document.getElementById('confirmation-message').style.display = 'none';
+                            window.location.href = '/chat';
+                        });
+                    }
+                    else {
+                        alert(response.error);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify({
+                doctor_id: doctorId,
+                date: selectedDate,
+                time_slot: selectedDateTime.toISOString(),
+                patient_email: '{{ patient_email }}',
+            }));
+        }
     </script>
 </body>
 

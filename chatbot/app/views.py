@@ -89,8 +89,9 @@ def get_doctors(request):
 # TODO: redirect to error page
 def book_appointment(request):
     if request.method == 'POST':
-        if new_appointment(request.body):
-            return JsonResponse({'message': 'Appointment booked successfully'})
+        id = new_appointment(request.body)
+        if id:
+            return JsonResponse({'message': 'Appointment booked successfully', 'appointment_id': id})
         return JsonResponse({'error': 'Appointment NOT booked'})
     else:
         # Display the form to book an appointment
@@ -100,7 +101,6 @@ def book_appointment(request):
             'patient_email': request.GET.get('email'),
         }
         return render(request, 'app/book_appointment.html', context)
-    return render(request, template_name='app/book_appointment.html')
 
 
 def delete(request):
@@ -116,7 +116,7 @@ def delete(request):
             return JsonResponse({'message': 'Appointment deleted successfully', 'deleted': 'True'})
         except Appointment.DoesNotExist:
             pass
-        return JsonResponse({'message': 'Appointment not found'})
+        return JsonResponse({'error': 'Appointment not found'})
 
     doctors = Doctor.objects.all()
     context = {'doctors': doctors}
@@ -138,7 +138,7 @@ def new_appointment(data):
             end_time=time_slot + timedelta(minutes=150),
         )
         appointment.save()
-        return True
+        return appointment.pk
     except Exception as e:
         print("ERROR is happened when saving new appointment")
         print(e)
