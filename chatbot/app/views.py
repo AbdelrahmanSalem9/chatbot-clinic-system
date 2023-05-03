@@ -134,8 +134,8 @@ def new_appointment(data):
         appointment = Appointment(
             doctor=doctor,
             patient=Patient.objects.get(pk=data['patient_email']),
-            start_time=time_slot + timedelta(minutes=120),
-            end_time=time_slot + timedelta(minutes=150),
+            start_time=time_slot + timedelta(minutes=180),
+            end_time=time_slot + timedelta(minutes=210),
         )
         appointment.save()
         return appointment.pk
@@ -171,25 +171,18 @@ def modify_appointment(request):
 
 def get_available_slots(doctor, selected_date):
     weekday = datetime.strptime(selected_date, '%Y-%m-%d').weekday()
-    working_days = doctor.working_days.filter(weekday=weekday)
+    print(weekday)
+    working_days = doctor.working_days.filter(
+        weekday=weekday)  # to be optimized
     if not working_days.exists():
         return []
 
-    available_slots = []
-    for working_day in working_days:
-        year, month, day = map(int, selected_date.split('-'))
-        selected_date = datetime(year, month, day)
-        start_time = datetime.combine(selected_date, working_day.start_time)
-        end_time = datetime.combine(selected_date, working_day.end_time)
-        time_delta = timedelta(minutes=30)
-        current_slot = start_time
-        while current_slot < end_time:
-            available_slots.append(current_slot)
-            current_slot += time_delta
+    available_slots = working_days.first().get_valid_working_time(selected_date)
+    print(available_slots)
 
-    # appointments = .appointments.filter(start_time__date=selected_date)
     appointments = Appointment.objects.filter(
         doctor=doctor, start_time__date=selected_date)
+    print(appointments)
     booked_slots = set()
     for appointment in appointments:
         start_time = appointment.start_time
@@ -197,8 +190,7 @@ def get_available_slots(doctor, selected_date):
         current_slot = start_time
         while current_slot < end_time:
             booked_slots.add(current_slot.replace(tzinfo=None))
-            current_slot += time_delta
-
+            current_slot += timedelta(minutes=31)
     available_slots = [
         slot for slot in available_slots if slot not in booked_slots]
     return available_slots
