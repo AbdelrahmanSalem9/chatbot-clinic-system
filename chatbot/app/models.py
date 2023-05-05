@@ -1,10 +1,9 @@
 from django.db import models
+from datetime import timedelta, datetime
+import uuid
 
 # TODO: Modify the models to fit your needs
 # Add some random # generator for the appointment id
-# add price
-# Dealing with this random type of time format
-# AM/PM or 24h format
 
 class Doctor(models.Model):
     name = models.CharField(max_length=255)
@@ -39,6 +38,19 @@ class WorkingDay(models.Model):
 
     def get_info(self):
         return f"{self.WEEKDAY_CHOICES[self.weekday][1]} from {self.start_time} to {self.end_time}"
+    
+    def get_valid_working_time(self, selected_date):
+        available_slots = []
+        year, month, day = map(int, selected_date.split('-'))
+        selected_date = datetime(year, month, day)
+        start_time = datetime.combine(selected_date, self.start_time)
+        end_time = datetime.combine(selected_date, self.end_time)
+        time_delta = timedelta(minutes=30)
+        current_slot = start_time
+        while current_slot < end_time:
+            available_slots.append(current_slot)
+            current_slot += time_delta
+        return available_slots
 
 class Patient(models.Model):
     email = models.EmailField(primary_key=True)
@@ -54,6 +66,7 @@ class Patient(models.Model):
 
 
 class Appointment(models.Model):
+    # id = models.CharField(primary_key=True, max_length=36, default=uuid.uuid4, editable=False)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     start_time = models.DateTimeField(null=True, blank=True)
@@ -63,4 +76,4 @@ class Appointment(models.Model):
         unique_together = ('doctor', 'start_time')
 
     def __str__(self):
-        return f"{str(self.doctor)} {str(self.patient.email)} {self.start_time} {self.end_time}"
+        return f"({self.pk}) {str(self.doctor)} {str(self.patient.email)} {self.start_time} {self.end_time}"

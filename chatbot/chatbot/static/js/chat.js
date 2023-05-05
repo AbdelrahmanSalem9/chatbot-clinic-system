@@ -19,7 +19,7 @@ $(document).ready(function () {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             dataType: 'json',
-            success: function (response) {
+            success: function (response) {  
                 response.bot_response = response.bot_response.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 // Add the bot's response to the chat log
                 if (response.link) {
