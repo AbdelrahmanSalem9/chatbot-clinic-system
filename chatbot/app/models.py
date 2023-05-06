@@ -1,20 +1,30 @@
 from django.db import models
 from datetime import timedelta, datetime
-import uuid
 
 # TODO: Modify the models to fit your needs
-# Add some random # generator for the appointment id
+# TODO: Add appointment default duration for the system or to the doctor itself
+# TODO: Add a field for appointment status, such as "Pending", "Confirmed", "Cancelled", or "Completed". This can be useful for both the patient and the doctor to keep track of the status of the appointment.
+
+
+class Speciality(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"({self.pk}) {self.name}"
+
 
 class Doctor(models.Model):
     name = models.CharField(max_length=255)
-    specialty = models.CharField(max_length=100)
+    speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, null=True)
     about = models.TextField(blank=True)
+    price_egp = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
     def get_info(self):
-        return f"Name: {self.name} \n Specialty: {self.specialty} \n About: {self.about} \n"
+        return f"Name: {self.name} \n Specialty: {self.specialty.name} \n Appointment Fees: {self.price_egp} EGP \n About: {self.about} \n"
 
 
 class WorkingDay(models.Model):
@@ -34,11 +44,11 @@ class WorkingDay(models.Model):
     end_time = models.TimeField()
 
     def __str__(self):
-        return f"{str(self.doctor)} {self.WEEKDAY_CHOICES[self.weekday][1]} from {self.start_time} to {self.end_time}"
+        return f"({self.pk}) {str(self.doctor)} {self.WEEKDAY_CHOICES[self.weekday][1]} from {self.start_time} to {self.end_time}"
 
     def get_info(self):
         return f"{self.WEEKDAY_CHOICES[self.weekday][1]} from {self.start_time} to {self.end_time}"
-    
+
     def get_valid_working_time(self, selected_date):
         available_slots = []
         year, month, day = map(int, selected_date.split('-'))
@@ -51,6 +61,7 @@ class WorkingDay(models.Model):
             available_slots.append(current_slot)
             current_slot += time_delta
         return available_slots
+
 
 class Patient(models.Model):
     email = models.EmailField(primary_key=True)
@@ -66,11 +77,11 @@ class Patient(models.Model):
 
 
 class Appointment(models.Model):
-    # id = models.CharField(primary_key=True, max_length=36, default=uuid.uuid4, editable=False)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    paid = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('doctor', 'start_time')
