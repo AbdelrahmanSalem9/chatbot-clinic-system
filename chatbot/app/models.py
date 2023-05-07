@@ -1,11 +1,6 @@
 from django.db import models
 from datetime import timedelta, datetime
 
-# TODO: Modify the models to fit your needs
-# TODO: Add appointment default duration for the system or to the doctor itself
-# TODO: Add a field for appointment status, such as "Pending", "Confirmed", "Cancelled", or "Completed". This can be useful for both the patient and the doctor to keep track of the status of the appointment.
-
-
 class Speciality(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -24,7 +19,7 @@ class Doctor(models.Model):
         return self.name
 
     def get_info(self):
-        return f"Name: {self.name} \n Specialty: {self.specialty.name} \n Appointment Fees: {self.price_egp} EGP \n About: {self.about} \n"
+        return f"Name: {self.name} \n Specialty: {self.speciality.name} \n Appointment Fees: {self.price_egp} EGP \n About: {self.about} \n"
 
 
 class WorkingDay(models.Model):
@@ -81,7 +76,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
-    paid = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False) # useful for payment extension later
 
     class Meta:
         unique_together = ('doctor', 'start_time')

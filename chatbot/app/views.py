@@ -15,16 +15,12 @@ from .bot import Bot
 bot = Bot()
 
 
-def IndexView(request):
+def index_view(request):
     return render(request, template_name='app/index.html')
 
 
-def ChatView(request):
+def chat_view(request):
     return render(request, template_name='app/chat.html')
-
-
-# TODO: remove the link things
-
 
 def chatbot(request):
     # Get the user's input from the AJAX request
@@ -91,8 +87,6 @@ def get_doctors(request):
     return JsonResponse({'error': 'Invalid request'})
 
 
-# TODO: handle the difference between server local time and the user's local time
-# TODO: redirect to error page
 def book_appointment(request):
     if request.method == 'POST':
         id = new_appointment(request.body)
@@ -102,7 +96,6 @@ def book_appointment(request):
     else:
         # Display the form to book an appointment
         doctors = Doctor.objects.all()
-        print(doctors)
         specialties = Speciality.objects.all()
         context = {
             'doctors': doctors,
@@ -174,5 +167,6 @@ def modify_appointment(request):
         context = {
             'doctors': [appointment.doctor],
             'patient_email': appointment.patient.email,
+            'specialties': [appointment.doctor.speciality],
         }
         return render(request, template_name='app/book_appointment.html', context=context)
