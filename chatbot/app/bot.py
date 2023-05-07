@@ -1,6 +1,5 @@
 from .query_handler import QueryHandler
 from nltk.chat.util import Chat, reflections
-# import re
 
 
 class Bot:
@@ -20,23 +19,23 @@ class Bot:
         self.chat = Chat(self.rules, reflections)
 
         # TODO: change to dynamic definition
-        self.appointment_keywords = {
-            'appointment', 'designation', 'appointee', 'fitting', 'scheduling', 'schedule'}
-        self.doctor_keywords = {'doctor', 'doc', 'physician', 'Dr.', 'ph'}
-        self.delete_keywords = {'delete', 'remove', 'cancel'}
-        self.working_hours_keywords = {
-            'working', 'hours', 'avaliable.', 'open'}
+        self.appointment_keywords = (
+            'appointment', 'designation', 'scheduling', 'schedule')
+        self.doctor_keywords = ('doctor', 'doc', 'physician', 'Dr.', 'ph')
+        self.delete_keywords = ('delete', 'remove', 'cancel')
+        self.specialities_keywords = (
+            "specialities", "speciality", "specialty", "doctors")
 
     def get_response(self, user_input):
         if any(s in user_input for s in self.doctor_keywords):
             return self.handler.doctor_query(user_input)
         elif any(s in user_input for s in self.appointment_keywords):
             return self.handler.new_appointment_query()
-        elif any(s in user_input for s in self.working_hours_keywords):
-            return self.handler.working_hours_query()
         elif any(s in user_input for s in self.delete_keywords):
             return self.handler.delete_appointment_query(user_input)
         elif '#' in user_input:
             return self.handler.modify_appointment_query(user_input)
+        elif any(s in user_input for s in self.specialities_keywords):
+            return self.handler.speciality_query()
         else:
             return self.chat.respond(user_input)

@@ -27,3 +27,16 @@ class QueryHandler:
 
     def delete_appointment_query(self, user_input):
         return f"Sure, I will help you to cancel an appointment now...", "/delete"
+    
+    def speciality_query(self):
+        doctors_by_speciality = {}
+        doctors = Doctor.objects.all()
+        for doctor in doctors:
+            if doctor.speciality.name not in doctors_by_speciality:
+                doctors_by_speciality[doctor.speciality.name] = []
+            doctors_by_speciality[doctor.speciality.name].append(doctor.name)
+        
+        return "\n\n".join([f"{speciality}: {self._list_to_string(doctors_by_speciality[speciality])}" for speciality in doctors_by_speciality])
+
+    def _list_to_string(self, list):
+        return ", ".join(list)
