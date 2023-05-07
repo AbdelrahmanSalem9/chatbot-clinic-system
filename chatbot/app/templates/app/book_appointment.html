@@ -12,6 +12,12 @@
     <h1>Book Appointment</h1>
     <form id="availability-form" method="POST">
         {% csrf_token %}
+        <label for="speciality">Select a speciality:</label>
+        <select name="speciality" id="speciality">
+            {% for speciality in specialties %}
+            <option value="{{ speciality.pk }}">{{ speciality.name }}</option>
+            {% endfor %}
+        </select>
         <label for="doctor">Select a doctor:</label>
         <select name="doctor" id="doctor">
             {% for doctor in doctors %}
@@ -40,8 +46,32 @@
         document.addEventListener('DOMContentLoaded', function () {
             var dateInput = document.getElementById('date');
             var doctorSelect = document.getElementById('doctor');
+            var specialitySelect = document.getElementById('speciality');
             var confirmButton = document.getElementById('confirm-button');
             var cancelButton = document.getElementById('cancel-button');
+
+            $('#speciality').change(function () {
+                var selectedSpeciality = specialitySelect.value;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/get_doctors/?speciality=' + selectedSpeciality);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Update the page with the available time slots
+                        var response = JSON.parse(xhr.responseText);
+                        var availableDoctors = response.doctors;
+                        var doctorSelect = document.getElementById('doctor');
+                        doctorSelect.innerHTML = '';
+                        for (var i = 0; i < availableDoctors.length; i++) {
+                            // create the button element  
+                            var doctorOption = document.createElement("option");
+                            doctorOption.value = availableDoctors[i].id;
+                            doctorOption.innerText = availableDoctors[i].name;
+                            doctorSelect.appendChild(doctorOption);
+                        }
+                    }
+                };
+                xhr.send();
+            });
 
             // Add event listener for date input change
             $('#doctor, #date').change(function () {

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from .models import Patient, Doctor, Appointment
+from .models import Patient, Doctor, Appointment, Speciality
 from django.utils import timezone
 from datetime import timedelta, datetime
 import json
@@ -8,9 +8,6 @@ from .utils import get_available_slots
 
 
 # TODO: REPLACE JQUERY WITH VANILLA JS
-
-
-
 
 
 from .bot import Bot
@@ -86,9 +83,11 @@ def check_availability(request):
 
 def get_doctors(request):
     if request.method == 'GET':
-        doctors = Doctor.objects.all()
-        response_data = {'doctors': list(doctors.values())}
-        return JsonResponse(response_data)
+        speciality_id = request.GET.get('speciality')
+        if speciality_id:
+            doctors = Doctor.objects.filter(speciality=speciality_id)
+            response_data = {'doctors': list(doctors.values())}
+            return JsonResponse(response_data)
     return JsonResponse({'error': 'Invalid request'})
 
 
@@ -103,9 +102,12 @@ def book_appointment(request):
     else:
         # Display the form to book an appointment
         doctors = Doctor.objects.all()
+        print(doctors)
+        specialties = Speciality.objects.all()
         context = {
             'doctors': doctors,
             'patient_email': request.GET.get('email'),
+            'specialties': specialties,
         }
         return render(request, 'app/book_appointment.html', context)
 
