@@ -18,6 +18,10 @@ class Action:
 
 
 class AddPatient(Action):
+
+    def __init__(self, data):
+        self.data = data
+
     def parse(self):
         patient_data = {
             'full_name': self.data.get('full_name'),

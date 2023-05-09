@@ -33,7 +33,7 @@ def chatbot(request):
 
 def patient_registeration(request):
     if request.method == 'POST':
-        email = request.POST.get(email)
+        email = request.POST.get('email')
         AddPatient(request.POST).execute(email)
         return redirect(f'/book_appointment/?email={email}')
 
