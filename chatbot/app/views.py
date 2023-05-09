@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import Doctor, Appointment, Speciality
-from .utils import get_available_slots, create_appointment, modify_appointment, delete_appointment
+from .utils import get_available_slots
 from .actions import CreateAppointment, ModifyAppointment, DeleteAppointment, AddPatient
 
 from .bot import Bot
