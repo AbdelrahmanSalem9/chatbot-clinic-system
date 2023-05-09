@@ -18,7 +18,6 @@ class Bot:
         ]
         self.chat = Chat(self.rules, reflections)
 
-        # TODO: change to dynamic definition
         self.appointment_keywords = (
             'appointment', 'designation', 'scheduling', 'schedule')
         self.doctor_keywords = ('doctor', 'doc', 'physician', 'Dr.', 'ph')

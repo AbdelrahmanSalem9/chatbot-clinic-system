@@ -7,6 +7,9 @@ class Speciality(models.Model):
 
     def __str__(self):
         return f"({self.pk}) {self.name}"
+    
+    class Meta:
+        verbose_name_plural = "Specialities"
 
 
 class Doctor(models.Model):
