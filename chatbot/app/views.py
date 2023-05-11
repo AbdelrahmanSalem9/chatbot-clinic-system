@@ -8,6 +8,8 @@ from .bot import Bot
 
 bot = Bot()
 
+# TODO: ADD error messages to display to the user
+
 
 def index_view(request):
     return render(request, template_name='app/index.html')

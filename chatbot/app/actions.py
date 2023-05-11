@@ -116,7 +116,7 @@ class DeleteAppointment(Action):
                 patient__email=patient_email
             )
             appointment.delete()
-            return JsonResponse({'message': 'Appointment deleted successfully', 'deleted': True})
+            return JsonResponse({'message': 'Appointment deleted successfully'})
         except Exception as e:
             print(e)
-            raise Exception("Can't Delete Appointment")
+            return JsonResponse({'message': 'Appointment not found'}, status=403)
