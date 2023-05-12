@@ -1,20 +1,339 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Chat Bot Demo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'css/index.css' %}">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Home</title>
+
+	<!-- CSS FILES -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+	<link href="{% static 'css/external/bootstrap.min.css' %}" rel="stylesheet">
+
+	<link href="{% static 'css/external/bootstrap-icons.css' %} " rel="stylesheet">
+
+	<link href="{% static 'css/external/owl.carousel.min.css' %}" rel="stylesheet">
+
+	<link href="{% static 'css/external/owl.theme.default.min.css' %} " rel="stylesheet">
+
+	<link href="{% static 'css/external/templatemo-medic-care.css' %} " rel="stylesheet">
+	<!--
+
+TemplateMo 566 Medic Care
+
+https://templatemo.com/tm-566-medic-care
+
+-->
 </head>
 
-<body>
-	<h1>Welcome to the Chat Bot Demo</h1>
-	<p>This is a simple chat bot demo. Click the button below to start chatting!</p>
-	<a href="/chat">
-		<button>Start Chatting</button>
-	</a>
+<body id="top">
 
+	<main>
+
+		<nav class="navbar navbar-expand-lg bg-light fixed-top shadow-lg">
+			<div class="container">
+				<a class="navbar-brand mx-auto d-lg-none" href="/">
+					Health Mate
+				</a>
+
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav mx-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="#hero">Home</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="#about">About</a>
+						</li>
+
+						<a class="navbar-brand d-none d-lg-block" href="/">
+							Health Mate
+							<strong class="d-block">Expert Care</strong>
+						</a>
+
+						<li class="nav-item">
+							<a class="nav-link" href="#reviews">Testimonials</a>
+						</li>
+
+
+						<li class="nav-item">
+							<a class="nav-link" href="#contact">Contact</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</nav>
+
+		<section class="hero" id="hero">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-12">
+						<div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
+							data-bs-ride="carousel" data-bs-interval="false">
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<img src="{% static 'imgs/external/slider/medical-ge51f9cb3c_1280.jpg' %}"
+										class="img-fluid" alt="">
+								</div>
+								<div class="carousel-item">
+									<img src="{% static 'imgs/external/slider/doctor-s-hand-holding-stethoscope-closeup.jpg' %}"
+										class="img-fluid" alt="">
+								</div>
+							</div>
+						</div>
+
+						<div class="heroText d-flex flex-column justify-content-center">
+
+							<h1 class="mt-auto mb-2">
+								Better
+								<div class="animated-info">
+									<span class="animated-item">health</span>
+									<span class="animated-item">days</span>
+									<span class="animated-item">lives</span>
+								</div>
+							</h1>
+
+							<p class="mb-4">Welcome to Health Mate, the easiest way to book, change, cancel,
+								and query clinic appointments with just a few clicks. Our user-friendly platform and
+								chatbot make it easy to find and manage appointments at top clinics and healthcare
+								providers.Say goodbye to long wait times and hello to a
+								stress-free appointment booking experience</p>
+
+							<div class="heroLinks d-flex flex-wrap align-items-center">
+								<a class="custom-link me-4" href="/chat" data-hover="Chatting">Start</a>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<section class="section-padding" id="about">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-lg-6 col-md-6 col-12">
+						<h2 class="mb-lg-3 mb-3">We are here to help</h2>
+
+						<p>At Health Mate, we are proud to offer a wide range of highly qualified medical
+							experts to help you with your healthcare needs. Whether you are looking for a general
+							practitioner, a specialist, we have the best doctors available to provide
+							you with the highest quality care. Our medical professionals are fully licensed and
+							experienced in their fields, and are committed to helping you achieve your best possible
+							health outcomes. With Health Mate, you can trust that you are in good hands, and
+							that you will receive the best care possible from our top medical experts.
+						</p>
+
+					</div>
+
+					<div class="col-lg-4 col-md-5 col-12 mx-auto">
+						<div
+							class="featured-circle bg-white shadow-lg d-flex justify-content-center align-items-center">
+							<p class="featured-text"><span class="featured-number">5</span> Years<br> of Experiences
+							</p>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<section class="gallery">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-lg-6 col-6 ps-0">
+						<img src="{% static 'imgs/external/gallery/medium-shot-man-getting-vaccine.jpg' %}"
+							class="img-fluid galleryImage" alt="get a vaccine" title="get a vaccine for yourself">
+					</div>
+
+					<div class="col-lg-6 col-6 pe-0">
+						<img src="{% static 'imgs/external/gallery/female-doctor-with-presenting-hand-gesture.jpg' %}"
+							class="img-fluid galleryImage" alt="wear a mask" title="wear a mask to protect yourself">
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<section class="section-padding pb-0" id="reviews">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-12">
+						<h2 class="text-center mb-lg-5 mb-4">Our Patients</h2>
+
+						<div class="owl-carousel reviews-carousel">
+
+							<figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+								<div class="reviews-stars">
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star"></i>
+								</div>
+
+								<p class="text-primary d-block mt-2 mb-0 w-100"><strong>Best Health Care</strong></p>
+
+								<p class="reviews-text w-100">Phasellus ligula ante, tempus ac imperdiet ut, mattis ac
+									nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
+									ridiculus mus.</p>
+
+								<img src="{% static 'imgs/external/reviews/beautiful-woman-face-portrait-brown-background.jpeg' %}" "images/reviews/beautiful-woman-face-portrait-brown-background.jpeg"
+									class="img-fluid reviews-image" alt="">
+
+								<figcaption class="ms-4">
+									<strong>Marie</strong>
+
+									<span class="text-muted">Patient</span>
+								</figcaption>
+							</figure>
+
+							<figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+								<div class="reviews-stars">
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star"></i>
+								</div>
+
+								<p class="text-primary d-block mt-2 mb-0 w-100"><strong>Doctor cares everyone!</strong>
+								</p>
+
+								<p class="reviews-text w-100">Donec in elementum orci, nec posuere ligula. Quisque
+									vulputate diam et ullamcorper ullamcorper. Pellentesque vestibulum neque at leo
+									fermentum mattis.</p>
+
+								<img src="{% static 'imgs/external/reviews/senior-man-wearing-white-face-mask-covid-19-campaign-with-design-space.jpeg' %}"
+									class="img-fluid reviews-image" alt="">
+
+								<figcaption class="ms-4">
+									<strong>Ben Walker</strong>
+
+									<span class="text-muted">Recovered</span>
+								</figcaption>
+							</figure>
+
+							<figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+								<div class="reviews-stars">
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+								</div>
+
+								<p class="text-primary d-block mt-2 mb-0 w-100"><strong>Great services!</strong></p>
+
+								<p class="reviews-text w-100">Vestibulum ante ipsum primis in faucibus orci luctus et
+									ultrices posuere cubilia curae; Donec sit amet velit vitae purus aliquam efficitur.
+								</p>
+
+								<img src="{% static 'imgs/external/reviews/portrait-british-woman.jpeg' %}"
+									class="img-fluid reviews-image" alt="">
+
+								<figcaption class="ms-4">
+									<strong>Laura Zono</strong>
+
+									<span class="text-muted">New Patient</span>
+								</figcaption>
+							</figure>
+
+							<figure class="reviews-thumb d-flex flex-wrap align-items-center rounded">
+								<div class="reviews-stars">
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star-fill"></i>
+									<i class="bi-star"></i>
+									<i class="bi-star"></i>
+								</div>
+
+								<p class="text-primary d-block mt-2 mb-0 w-100"><strong>Best Advices</strong></p>
+
+								<p class="reviews-text w-100">Integer posuere erat a ante venenatis dapibus posuere
+									velit aliquet. Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus
+									auctor fringilla.</p>
+
+								<img src="{% static 'imgs/external/reviews/woman-wearing-mask-face-closeup-covid-19-green-background.jpeg' %}"
+									class="img-fluid reviews-image" alt="">
+
+								<figcaption class="ms-4">
+									<strong>Rosey</strong>
+
+									<span class="text-muted">Almost Recovered</span>
+								</figcaption>
+							</figure>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+	</main>
+
+	<footer class="site-footer section-padding" id="contact">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2 col-md-6 col-12 my-4 my-lg-0">
+					<h5 class="mb-lg-4 mb-3">Our Clinic</h5>
+
+					<p><a href="mailto:hello@company.co">hello@company.co</a>
+					<p>
+
+					<p>123 Digital Art Street, San Diego, CA 92123</p>
+				</div>
+
+				<div class="col-lg-3 col-md-6 col-12 ms-auto">
+					<h5 class="mb-lg-4 mb-3">Socials</h5>
+
+					<ul class="social-icon">
+						<li><a href="#" class="social-icon-link bi-facebook"></a></li>
+
+						<li><a href="#" class="social-icon-link bi-twitter"></a></li>
+
+						<li><a href="#" class="social-icon-link bi-instagram"></a></li>
+
+						<li><a href="#" class="social-icon-link bi-youtube"></a></li>
+					</ul>
+				</div>
+
+			</div>
+			</section>
+	</footer>
+
+	<!-- JAVASCRIPT FILES -->
+	<script src="{% static 'js/external/jquery.min.js' %}"></script>
+	<script src="{% static 'js/external/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'js/external/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'js/external/scrollspy.min.js' %}"></script>
+	<script src="{% static 'js/external/custom.js' %}"></script>
+	<!--
+
+TemplateMo 566 Medic Care
+
+https://templatemo.com/tm-566-medic-care
+
+-->
 </body>
 
 </html>
