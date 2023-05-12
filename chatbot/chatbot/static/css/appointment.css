@@ -4,21 +4,21 @@
     }
 
     body {
+        min-height: 100vh;
         display: flex;
-        justify-content: center;
         align-items: center;
-        background-color: #f7f7f7;
+        justify-content: center;
+        background: #4070f4;
     }
 
     form {
-        max-width: 600px;
+        position: relative;
+        max-width: 430px;
         width: 100%;
-        margin: 0 auto;
-        padding: 40px;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        text-align: center;
+        background: #fff;
+        padding: 34px;
+        border-radius: 6px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     }
 
     form h1 {
@@ -66,7 +66,7 @@
         display: inline-block;
         padding: 12px 20px;
         margin-top: 20px;
-        background-color: #555555;
+        background: #4070f4;
         color: #ffffff;
         font-size: 16px;
         font-weight: 600;
@@ -76,6 +76,7 @@
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        letter-spacing: 1px;
     }
 
     form button[type="submit"]:hover {
