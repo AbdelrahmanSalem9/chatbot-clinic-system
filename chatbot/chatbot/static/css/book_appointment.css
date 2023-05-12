@@ -90,15 +90,15 @@ li {
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #f9a826;
+    background-color: #4070f4;
     color: white;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(249, 168, 38, 0.3);
+    box-shadow: 0 10px 20px rgba(32, 109, 243, 0.3);
     transition: transform 0.3s ease-in-out;
 }
 
 .confirm-box button:hover {
-    background-color: #ffba43;
+    background-color: #0056b3;
     transform: scale(1.1);
 }
 
@@ -117,14 +117,14 @@ li {
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #f9a826;
-    color: white;
+    background-color: #ffffff;
+    color: black;
     cursor: pointer;
 }
 
 .time-slot:hover {
-    background-color: #ffba43;
-    transform: scale(1.1);
+    background-color: #ffffffcd;
+    transform: scale(1.05);
 }
 
 /* Styling for the calendar */

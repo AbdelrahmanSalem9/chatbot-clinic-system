@@ -8,7 +8,7 @@ from .bot import Bot
 
 bot = Bot()
 
-# TODO: ADD error messages to display to the user
+# TODO: ADD error messages to display to the user - make the pages extends the base.html
 
 
 def index_view(request):
