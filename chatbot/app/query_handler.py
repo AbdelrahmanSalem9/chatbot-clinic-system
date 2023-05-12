@@ -15,9 +15,10 @@ class QueryHandler:
         return " and ".join([str(working_day.get_info()) for working_day in WorkingDay.objects.filter(doctor=doctor)])
 
     def modify_appointment_query(self, user_input):
-        id = re.search(r'#(\d+)', user_input).group(1)
+        id = re.search(r'#(\d+)', user_input)
         if id:
             try:
+                id = id.group(1)
                 appointment = Appointment.objects.get(pk=id)
                 return f"I will help you modfiy you appointment now...", f"/change/?id={id}"
             except:

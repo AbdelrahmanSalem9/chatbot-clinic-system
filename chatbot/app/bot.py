@@ -1,8 +1,6 @@
 from .query_handler import QueryHandler
 from nltk.chat.util import Chat, reflections
 
-# TODO: Prioirty of words in the user input
-
 
 class Bot:
     def __init__(self):
@@ -31,7 +29,7 @@ class Bot:
     def get_response(self, user_input):
         if any(s in user_input for s in self.delete_keywords):
             return self.handler.delete_appointment_query(user_input)
-        elif any(s in user_input for s in self.modify_keywords):
+        elif any(s in user_input for s in self.modify_keywords) or '#' in user_input:
             return self.handler.modify_appointment_query(user_input)
         elif any(s in user_input for s in self.appointment_keywords):
             return self.handler.new_appointment_query()
