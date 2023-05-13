@@ -22,7 +22,7 @@ class Doctor(models.Model):
         return self.name
 
     def get_info(self):
-        return f"Name: {self.name} \n Specialty: {self.speciality.name} \n Appointment Fees: {self.price_egp} EGP \n About: {self.about} \n"
+        return f"- Name: {self.name} \n - Specialty: {self.speciality.name} \n - Appointment Fees: {self.price_egp} EGP \n - About: {self.about} \n"
 
 
 class WorkingDay(models.Model):

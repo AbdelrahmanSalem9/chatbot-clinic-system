@@ -7,7 +7,7 @@ class QueryHandler:
         doctors = Doctor.objects.all()
         for doctor in doctors:
             if doctor.name.lower() in user_input.lower():
-                return f"{doctor.get_info()} Working days: {self._get_working_days(doctor)}"
+                return f"{doctor.get_info()} - Working days: {self._get_working_days(doctor)}"
         else:
             return self.speciality_query()
 

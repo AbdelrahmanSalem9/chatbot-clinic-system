@@ -24,7 +24,7 @@ class Bot:
         self.modify_keywords = ('modify', 'change', 'adjust', 'reform')
         self.delete_keywords = ('delete', 'remove', 'cancel')
         self.specialities_keywords = (
-            "specialities", "speciality", "specialty")
+            "specialities", "speciality", "specialty", "specializations")
 
     def get_response(self, user_input):
         if any(s in user_input for s in self.delete_keywords):

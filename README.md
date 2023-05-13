@@ -28,9 +28,13 @@ for the sake of simplicity, I have assumed that each appointment time is 30 min,
 - Django
 - SQLite
 - Natural Language Toolkit (NLTK)
+- Faker Library for database populating
 - HTML/CSS/JavaScript
 - JQuery
 - Bootstrap
 
 ## **Credits**
-This project was created by Abdelrahman Salem
+This project uses the following HTML templates, sourced from :
+
+- [TemplateMo](https://templatemo.com/live/templatemo_566_medic_care)
+- [CodingNepal](https://www.codingnepalweb.com/registration-signup-form-template-html-css/)
