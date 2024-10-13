@@ -5,6 +5,10 @@ This is a Django-based web application for a clinic reservation system that prov
 ## **Project Overview**
 The clinic reservation website is designed to help patients easily book appointments with different doctors with different specialties. The web application includes a chatbot that provides users with an intuitive way to communicate with the system and book appointments.
 
+
+https://github.com/user-attachments/assets/b17b87d8-c734-4481-b2be-d9e8aab08c90
+
+
 ## **Features**
 - Appointment booking: Patients can search and book valid appointments with doctors of different specializations. The system ensures that no two appointments for the same doctor can exist.
 - Appointment modification: Patients can modify existing appointments with the same or different doctors of the same specialization.
